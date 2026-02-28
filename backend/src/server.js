@@ -11,6 +11,9 @@ const PORT = process.env.port || 5001
 
 connectDB();
 
+//middleware
+app.use(express.json());
+
 app.use("/api/notes", router);
 
 app.listen(PORT,()=>{
