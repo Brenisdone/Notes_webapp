@@ -6,7 +6,6 @@ import toast from "react-hot-toast"
 
 const NoteDetailPage = () => {
 
-  const [isRateLimited,setRateLimited] = useState(false);
   const [note,setNote] = useState(null);
   const [loading,setLoading] = useState(true);
   const [saving,setSaving] = useState(false);
@@ -22,16 +21,10 @@ const NoteDetailPage = () => {
         const res = await api.get(`/notes/${id}`);
         console.log(res.data);
         setNote(res.data);
-        setRateLimited(false);
       }
       catch(error){
         console.log("Error in fetching note",error);
-        if(error.response?.status === 429){
-          setRateLimited(true);
-        }
-        else{
-          toast.error("Failed to fetch note");
-        } 
+        toast.error("Failed to fetch note");
       }
       finally{
         setLoading(false);
@@ -70,7 +63,15 @@ const NoteDetailPage = () => {
     }
     catch(error){
       console.log("Error in setSaving", error);
-      toast.error("Failed to update Note");
+      if(error.response?.status === 429){
+        toast.error("Slow down cowboy!",{
+          duration:4000,
+          icon: "🤠",
+        });
+      }
+      else{
+        toast.error("Failed to update Note");
+      }
     }
     finally{
       setSaving(false);
@@ -89,7 +90,6 @@ const NoteDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-base-200">
-      {isRateLimited && <RateLimitedUI />}
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center justify-between mb-6">

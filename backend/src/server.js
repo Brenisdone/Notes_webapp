@@ -20,9 +20,10 @@ if(process.env.NODE_ENV !== "production"){
     app.use(cors(
         {origin: "http://localhost:5173"}
     ));
-    app.use(express.json()); //parses JSON bodies: req.body
-    app.use(ratelimiter);
 }
+
+app.use(express.json()); //parses JSON bodies: req.body
+app.use(ratelimiter);
     
 //simple custom middleware
 // app.use((req,res,next) => {

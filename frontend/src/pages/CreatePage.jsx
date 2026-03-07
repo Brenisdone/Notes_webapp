@@ -14,7 +14,7 @@ const CreatePage = () => {
   const handleSumbit = async (e) => {
     e.preventDefault();
     
-    if (!title.trim() || !content.trim){
+    if (!title.trim() || !content.trim()){
       toast.error("All fields are required");
       return;
     }
@@ -32,7 +32,7 @@ const CreatePage = () => {
     catch(error){
       console.log("Error in createpage: ", error);
       
-      if(error.response.status === 429){
+      if(error.response?.status === 429){
         toast.error("Slow down cowboy!",{
           duration:4000,
           icon: "🤠",
